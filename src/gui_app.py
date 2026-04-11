@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import messagebox
 import time
 from search_engine import build_graph, build_direct_map, ultra_fast_search
 
@@ -7,48 +7,75 @@ from search_engine import build_graph, build_direct_map, ultra_fast_search
 graph = build_graph("data/data.csv")
 direct_map = build_direct_map(graph)
 
-# Function to handle search
-def search():
-    target = entry.get()
-    
-    if target not in graph and target not in direct_map:
-        result_box.delete(1.0, tk.END)
-        result_box.insert(tk.END, "❌ Node not found")
+# ================= GUI =================
+
+def run_search():
+    target = entry.get().strip()
+
+    # Validation
+    if target == "":
+        messagebox.showwarning("Input Error", "Please enter a target node")
         return
 
-    start = time.time()
-    path = ultra_fast_search(direct_map, target)
-    end = time.time()
+    if target not in graph and target not in direct_map:
+        result_label.config(text="Node not found in dataset", fg="red")
+        time_label.config(text="")
+        return
 
-    result_box.delete(1.0, tk.END)
-    result_box.insert(tk.END, " -> ".join(path))
+    start_time = time.time()
+    result = ultra_fast_search(direct_map, target)
+    end_time = time.time()
 
-    time_label.config(text=f"⏱ Time: {end - start:.6f} seconds")
+    if result:
+        path = " -> ".join(result)
+        result_label.config(text=path, fg="green")
+    else:
+        result_label.config(text="No path found", fg="red")
 
-# Create window
+    time_label.config(text=f"Execution Time: {end_time - start_time:.6f} seconds")
+
+
+def clear_fields():
+    entry.delete(0, tk.END)
+    result_label.config(text="")
+    time_label.config(text="")
+
+
+# Main window
 root = tk.Tk()
 root.title("CSV Search Engine")
-root.geometry("700x500")
-root.configure(bg="#1e1e1e")  # dark background
+root.geometry("600x400")
+root.resizable(False, False)
 
 # Title
-title = tk.Label(root, text="CSV Search Engine", font=("Arial", 20, "bold"), fg="white", bg="#1e1e1e")
+title = tk.Label(root, text="CSV Search Engine", font=("Arial", 18, "bold"))
 title.pack(pady=10)
 
-# Input
-entry = tk.Entry(root, font=("Arial", 14), width=30)
-entry.pack(pady=10)
+# Input section
+frame = tk.Frame(root)
+frame.pack(pady=10)
 
-# Button
-search_btn = tk.Button(root, text="Search", font=("Arial", 12), bg="#4CAF50", fg="white", command=search)
-search_btn.pack(pady=5)
+label = tk.Label(frame, text="Enter Target Node:", font=("Arial", 12))
+label.grid(row=0, column=0, padx=5)
 
-# Result box (SCROLLABLE)
-result_box = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=80, height=15, font=("Arial", 10))
-result_box.pack(pady=10)
+entry = tk.Entry(frame, width=25, font=("Arial", 12))
+entry.grid(row=0, column=1, padx=5)
 
-# Time label
-time_label = tk.Label(root, text="⏱ Time: ", font=("Arial", 12), fg="white", bg="#1e1e1e")
+# Buttons
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+search_btn = tk.Button(button_frame, text="Search", width=12, command=run_search)
+search_btn.grid(row=0, column=0, padx=10)
+
+clear_btn = tk.Button(button_frame, text="Clear", width=12, command=clear_fields)
+clear_btn.grid(row=0, column=1, padx=10)
+
+# Result section
+result_label = tk.Label(root, text="", wraplength=550, justify="center", font=("Arial", 11))
+result_label.pack(pady=20)
+
+time_label = tk.Label(root, text="", font=("Arial", 10))
 time_label.pack()
 
 # Run app
