@@ -4,9 +4,15 @@
 
 This project is a high-performance CSV Search Engine built using Python. It is designed to efficiently process large datasets (5000+ nodes) by converting the data into a graph structure.
 
-Instead of repeatedly scanning the dataset, the system applies an optimized **direct mapping technique**, enabling near-instant retrieval of paths between nodes.
+Instead of repeatedly scanning the dataset, the system uses an optimized **direct mapping technique**, allowing near-instant retrieval of paths between nodes.
 
-The project demonstrates how proper use of **data structures and algorithm optimization** can significantly improve performance when working with large-scale data.
+This project demonstrates how proper use of **data structures and algorithm optimization** can significantly improve performance when working with large-scale data.
+
+---
+
+## 🎯 Purpose
+
+The goal of this project is to demonstrate how fast search operations can be achieved on large datasets using graph-based techniques and optimization strategies.
 
 ---
 
@@ -24,19 +30,19 @@ The system reads a CSV file containing node relationships, builds a graph (adjac
 * Ultra-fast path retrieval
 * Execution time tracking
 * Input validation (detects invalid nodes)
-* User-friendly GUI interface (Tkinter)
+* Simple GUI interface for user interaction
 
 ---
 
 ## 🧠 Algorithm & Approach
 
-This project combines multiple concepts:
+This project uses the following concepts:
 
 * **Graph Representation**
-  Data from the CSV file is converted into an adjacency list.
+  The CSV data is converted into an adjacency list.
 
 * **Direct Mapping Optimization**
-  A dictionary is created to map each node directly to its parent, reducing search time.
+  Each node is mapped to its parent for faster lookup.
 
 * **Search Strategy**
   Inspired by Breadth-First Search (BFS), but optimized to avoid repeated traversal.
@@ -45,21 +51,21 @@ This project combines multiple concepts:
 
 ## ⚡ Performance
 
-* **Preprocessing Time:** O(n)
-* **Search Time:** ~ O(1) (near constant time)
-* Extremely fast even with large datasets
+* Preprocessing Time: O(n)
+* Search Time: ~ O(1) (near constant time)
+* Efficient even with large datasets
 
 ---
 
 ## 🖥️ GUI Interface
 
-The project includes a graphical user interface (GUI) built with Tkinter.
+The project includes a simple graphical user interface (GUI).
 
 Users can:
 
 * Enter a target node
-* Click the search button
-* View the full path in a scrollable display
+* Click search
+* View the full path
 * See execution time instantly
 
 ---
@@ -77,24 +83,38 @@ CSV_Search_Engine/
 
 ---
 
-## ▶️ How to Run
+## 💻 How to Run on Your Local Machine
 
-### 1. Generate Dataset
+### 1. Clone the Repository
 
+```bash
+git clone https://github.com/Austin-dev7/CSV_Search_Engine.git
 ```
+
+### 2. Navigate into the Project Folder
+
+```bash
+cd CSV_Search_Engine
+```
+
+### 3. Generate the Dataset
+
+```bash
 python generate_data.py
 ```
 
-### 2. Run CLI Version
+### 4. Run the Application
 
-```
-python src/search_engine.py
-```
+#### ▶️ Run GUI Version (Recommended)
 
-### 3. Run GUI Version
-
-```
+```bash
 python src/gui_app.py
+```
+
+#### ▶️ Run Terminal Version
+
+```bash
+python src/search_engine.py
 ```
 
 ---
@@ -120,9 +140,9 @@ Execution Time: 0.000045 seconds
 
 * How to convert CSV data into a graph structure
 * How to optimize search using direct mapping
-* Difference between normal search and optimized search
+* How to improve performance using algorithms
 * How to measure execution time in Python
-* How to build a GUI application using Tkinter
+* How to build a simple GUI application
 
 ---
 
