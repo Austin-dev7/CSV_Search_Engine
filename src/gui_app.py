@@ -7,7 +7,7 @@ from search_engine import build_graph, build_direct_map, ultra_fast_search
 graph = build_graph("data/data.csv")
 direct_map = build_direct_map(graph)
 
-# ================= GUI =================
+# ================= FUNCTIONS =================
 
 def run_search():
     target = entry.get().strip()
@@ -28,7 +28,7 @@ def run_search():
 
     if result:
         path = " -> ".join(result)
-        result_label.config(text=path, fg="green")
+        result_label.config(text=f"Path:\n{path}", fg="green")
     else:
         result_label.config(text="No path found", fg="red")
 
@@ -40,12 +40,21 @@ def clear_fields():
     result_label.config(text="")
     time_label.config(text="")
 
+# ================= GUI SETUP =================
 
-# Main window
 root = tk.Tk()
 root.title("CSV Search Engine")
-root.geometry("600x400")
+root.geometry("650x420")
 root.resizable(False, False)
+
+# Center window
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+x = (screen_width // 2) - (650 // 2)
+y = (screen_height // 2) - (420 // 2)
+root.geometry(f"650x420+{x}+{y}")
+
+# ================= UI ELEMENTS =================
 
 # Title
 title = tk.Label(root, text="CSV Search Engine", font=("Arial", 18, "bold"))
@@ -60,10 +69,14 @@ label.grid(row=0, column=0, padx=5)
 
 entry = tk.Entry(frame, width=25, font=("Arial", 12))
 entry.grid(row=0, column=1, padx=5)
+entry.focus()  # Auto-focus
+
+# Allow Enter key to trigger search
+root.bind('<Return>', lambda event: run_search())
 
 # Buttons
 button_frame = tk.Frame(root)
-button_frame.pack(pady=10)
+button_frame.pack(pady=15)
 
 search_btn = tk.Button(button_frame, text="Search", width=12, command=run_search)
 search_btn.grid(row=0, column=0, padx=10)
@@ -72,8 +85,15 @@ clear_btn = tk.Button(button_frame, text="Clear", width=12, command=clear_fields
 clear_btn.grid(row=0, column=1, padx=10)
 
 # Result section
+result_title = tk.Label(root, text="Result", font=("Arial", 12, "bold"))
+result_title.pack()
+
 result_label = tk.Label(root, text="", wraplength=550, justify="center", font=("Arial", 11))
-result_label.pack(pady=20)
+result_label.pack(pady=10)
+
+# Execution time section
+time_title = tk.Label(root, text="Execution Details", font=("Arial", 12, "bold"))
+time_title.pack()
 
 time_label = tk.Label(root, text="", font=("Arial", 10))
 time_label.pack()
