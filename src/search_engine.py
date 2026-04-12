@@ -46,14 +46,14 @@ def build_direct_map(graph):
 # ================= SEARCH ALGORITHM =================
 
 # Ultra fast search using direct mapping
-# This avoids BFS and makes search much faster
+# This avoids full traversal and improves performance
 def ultra_fast_search(direct_map, target):
     path = []
 
     # Move backward from target to the root node
     while target in direct_map:
-        path.append(target)              # add current node to path
-        target = direct_map[target]      # move to parent node
+        path.append(target)
+        target = direct_map[target]
 
     # Add the starting node
     path.append(target)
@@ -65,10 +65,12 @@ def ultra_fast_search(direct_map, target):
 
 
 # ================= MAIN PROGRAM =================
+
 def show_menu():
     print("\n" + "="*40)
-    print("      CSV SEARCH ENGINE (GOI)")
+    print("      CSV SEARCH ENGINE")
     print("="*40)
+    print("Fast search using graph optimization")
     print("1. Search for a node")
     print("2. Run sample test")
     print("3. Exit")
@@ -83,17 +85,18 @@ def run_system(graph, direct_map):
         if choice == "1":
             target = input("\nEnter target node: ")
 
+            # Validation
             if target not in graph and target not in direct_map:
-                print("\n❌ Node does not exist in dataset")
+                print("\nNode not found in dataset")
                 continue
 
             start_time = time.time()
             result = ultra_fast_search(direct_map, target)
             end_time = time.time()
 
-            print("\n✅ Result:")
+            print("\nResult:")
             print("Path:", " -> ".join(result))
-            print(f"⏱ Time: {end_time - start_time:.6f} seconds")
+            print(f"Execution Time: {end_time - start_time:.6f} seconds")
 
         elif choice == "2":
             print("\nRunning sample tests...")
@@ -105,15 +108,21 @@ def run_system(graph, direct_map):
                 print("Path:", " -> ".join(result))
 
         elif choice == "3":
-            print("\n👋 Exiting system...")
+            print("\nExiting system...")
             break
 
         else:
-            print("\n❌ Invalid choice")
+            print("\nInvalid choice")
 
 
 # ================= RUN =================
-graph = build_graph("data/data.csv")
-direct_map = build_direct_map(graph)
+
+# Handle missing file safely
+try:
+    graph = build_graph("data/data.csv")
+    direct_map = build_direct_map(graph)
+except FileNotFoundError:
+    print("Error: data.csv file not found")
+    exit()
 
 run_system(graph, direct_map)
