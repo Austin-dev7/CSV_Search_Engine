@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSV Search Engine</title>
+  <link rel="stylesheet" href="style.css" />
+<base target="_blank">
+</head>
+<body>
+  <main class="container">
+    <h1>🔍 CSV Search Engine</h1>
+    <p class="subtitle">
+      High-performance graph-based path search across 5000+ nodes —
+      powered by direct mapping optimization.
+    </p>
+
+    <div class="card">
+      <div class="inputs">
+        <div class="field">
+          <label for="start">Start Node</label>
+          <input type="text" id="start" value="N1" placeholder="e.g. N1" />
+        </div>
+        <div class="field">
+          <label for="target">Target Node</label>
+          <input type="text" id="target" placeholder="e.g. N100" />
+        </div>
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <div id="status" class="status">Loading dataset…</div>
+
+      <div id="result" class="result hidden">
+        <h2>Result</h2>
+        <p><strong>Path:</strong> <span id="path" class="path"></span></p>
+        <p><strong>Nodes visited:</strong> <span id="visited"></span></p>
+        <p><strong>Execution time:</strong> <span id="time"></span> seconds</p>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </div>
+
+    <footer>
+      Built with vanilla HTML · CSS · JavaScript — deployed on Vercel
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
